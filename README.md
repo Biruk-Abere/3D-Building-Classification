@@ -2,6 +2,10 @@
 
 https://drive.google.com/file/d/1gwRviPb18vANDECAqeUqLBCvBTnfq7fo/view [30GB] 
 
+Chairs Airplane Cars
+
+[ OOD --> Toy4k -> ModelNet ] 
+
 
 # Multi-Modal Diffusion Models For 3D Building Classification 🏢🌐
 
