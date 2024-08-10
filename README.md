@@ -1,3 +1,8 @@
+# DATASET
+
+https://drive.google.com/file/d/1gwRviPb18vANDECAqeUqLBCvBTnfq7fo/view [30GB] 
+
+
 # Multi-Modal Diffusion Models For 3D Building Classification 🏢🌐
 
 Team: Biruk Abere, Berfin Inal, Gabriele Dominici, Meher Nigam, Alex Li,  Nursena Koprucu, Sharvaree Vadgama, Le Xue, Shicheng Xu, Alberto Tono 
