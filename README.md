@@ -1,6 +1,7 @@
 # DATASET
 
-https://drive.google.com/file/d/1gwRviPb18vANDECAqeUqLBCvBTnfq7fo/view [30GB] 
+All ShapeNet https://drive.google.com/file/d/1gwRviPb18vANDECAqeUqLBCvBTnfq7fo/view [30GB] 
+ShapeNet 3 Classes https://drive.google.com/drive/folders/10dVJxcSIjp3EfQkqEiA2xJ9N9mtyTQFV?usp=drive_link
 
 Chairs Airplane Cars
 
