@@ -13,6 +13,8 @@ Then the log directory will be something like this: ``` data/shapenet/v2-0_1tria
 
 Accuracy can be computed by running: ``` python scripts/print_acc.py data/shapenet/v2-0_1trials_3_1keep_100_500samples_l1 ```
 
+Use pytorch 11.7
+
 
 # Multi-Modal Diffusion Models For 3D Building Classification 🏢🌐
 
