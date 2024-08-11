@@ -1,7 +1,7 @@
 <div align="center">
 
 <!-- TITLE -->
-# **Multi View Diffusion For Classification**
+# **Multi View Diffusion Classifier**
 
 [![arXiv](https://img.shields.io/badge/cs.LG-arXiv:2303.16203-b31b1b.svg)](https://arxiv.org/abs/2303.16203)
 [![Website](https://img.shields.io/badge/🌎-Website-blue.svg)](http://diffusion-classifier.github.io)
