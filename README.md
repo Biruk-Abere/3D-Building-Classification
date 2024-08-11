@@ -14,7 +14,7 @@ Chairs Airplane Cars
 
 ```cd /home/ubuntu/3D-Building-Classification-main/diffusion_classifier```
 
-``` python eval_prob_adaptive.py --dataset shapenet --split test --n_trials 1 \ --to_keep 3 1 --n_samples 100 500 --loss l1 \ --prompt_path prompts/shapenet_prompts_meher.csv ```
+```python eval_prob_adaptive.py --dataset shapenet --split test --n_trials 1 --to_keep 3 1 --n_samples 100 500 --loss l1 --prompt_path prompts/shapenet_prompts_meher.csv```
 
 Then the log directory will be something like this: ``` data/shapenet/v2-0_1trials_3_1keep_100_500samples_l1 ```
 
