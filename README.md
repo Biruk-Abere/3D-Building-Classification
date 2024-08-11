@@ -1,6 +1,7 @@
 # DATASET
 
-https://drive.google.com/file/d/1gwRviPb18vANDECAqeUqLBCvBTnfq7fo/view [30GB] 
+All ShapeNet https://drive.google.com/file/d/1gwRviPb18vANDECAqeUqLBCvBTnfq7fo/view [30GB] 
+ShapeNet 3 Classes https://drive.google.com/drive/folders/10dVJxcSIjp3EfQkqEiA2xJ9N9mtyTQFV?usp=drive_link
 
 Chairs Airplane Cars
 
@@ -19,6 +20,8 @@ Chairs Airplane Cars
 Then the log directory will be something like this: ``` data/shapenet/v2-0_1trials_3_1keep_100_500samples_l1 ```
 
 Accuracy can be computed by running: ``` python scripts/print_acc.py data/shapenet/v2-0_1trials_3_1keep_100_500samples_l1 ```
+
+Use pytorch 11.7
 
 
 # Multi-Modal Diffusion Models For 3D Building Classification 🏢🌐
