@@ -81,6 +81,7 @@ For this project, we used the dataset provided by the BuildingNet Challenge, ava
 
 
 # Licence 📜
+Render used [Mitsuba Render here](https://github.com/hasancaslan/BeautifulPointCloud)
 
 
 
