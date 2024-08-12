@@ -3,6 +3,7 @@ import os
 from tqdm import tqdm
 import random 
 import torch 
+from collections import defaultdict
 
 print(os.getcwd())
 
@@ -32,51 +33,51 @@ def get_transform(interpolation=InterpolationMode.BICUBIC, size=512):
 
 
 class ShapeNetDataset(torch.utils.data.Dataset):
-    def __init__(self, root_dir, class_to_idx=None, transform=None):
+    def __init__(self, root_dir, class_to_idx=None, transform=None, limit_per_class=200):
         self.root_dir = root_dir
         self.class_to_idx = class_to_idx
         self.transform = transform
+        self.limit_per_class = limit_per_class
+        self.view_files = ["00.png", "01.png", "02.png", "33.png", "34.png", "35.png"]
         self.imgs = self._load_imgs()
         self.loader = default_loader  # Default loader for image files
 
     def _load_imgs(self):
-      imgs = []
-      for root, dirs, files in os.walk(self.root_dir):
-          for file in files:
-              if file.endswith(('.png', '.jpg', '.jpeg')):  # check if the file is an image
-                  path = os.path.join(root, file)
-                  unique_id, class_label = self._get_unique_id_from_path(path)
-                  # Only add if class_label exists in class_to_idx
-                  if self.class_to_idx is None or class_label in self.class_to_idx:
-                      imgs.append((path, unique_id, self.class_to_idx[class_label]))
-      return imgs
+        imgs = []
+        for class_name, class_idx in self.class_to_idx.items():
+            unique_ids = os.listdir(os.path.join(self.root_dir, class_name))
+            unique_ids = unique_ids[:self.limit_per_class]
+            for unique_id in unique_ids:
+                for view_file in self.view_files:
+                    path = os.path.join(self.root_dir, class_name, unique_id, "easy", view_file)
+                    imgs.append((path, unique_id, class_idx))
+        return imgs
 
     def _get_unique_id_from_path(self, file_path):
-      # Extract the parts of the file path
-      path_parts = file_path.split(os.sep)
-      
-      # Assuming the class name is the second-to-last folder in the path and the model ID is the last folder
-      class_name = path_parts[-4]
-      model_id = path_parts[-3]
-      difficulty = path_parts[-2]  # This will be either 'easy' or 'hard'
-      #unique_id = f"{class_name}_{model_id}"
-      unique_id = f"{class_name}_{model_id}_{difficulty}"
-      
-      return unique_id, class_name
+        # Extract the parts of the file path
+        path_parts = file_path.split(os.sep)
+
+        # Assuming the class name is the second-to-last folder in the path and the model ID is the last folder
+        class_name = path_parts[-4]
+        model_id = path_parts[-3]
+        difficulty = path_parts[-2]  # This will be either 'easy' or 'hard'
+        # unique_id = f"{class_name}_{model_id}"
+        unique_id = f"{class_name}_{model_id}_{difficulty}"
+
+        return unique_id, class_name
 
     def __getitem__(self, idx):
-      image_path, unique_id, class_label = self.imgs[idx]
-      _, class_label = self._get_unique_id_from_path(image_path)  # Get class label
-      
-      # Convert class label to class index if mapping is provided
-      class_idx = self.class_to_idx[class_label] if self.class_to_idx else -1
-      
-      image = self.loader(image_path)
-      if self.transform:
-          image = self.transform(image)
-      
-      return image, class_idx, unique_id  # Returns image, class index, and unique_id
+        image_path, unique_id, class_label = self.imgs[idx]
+        _, class_label = self._get_unique_id_from_path(image_path)  # Get class label
 
+        # Convert class label to class index if mapping is provided
+        class_idx = self.class_to_idx[class_label] if self.class_to_idx else -1
+
+        image = self.loader(image_path)
+        if self.transform:
+            image = self.transform(image)
+
+        return image, class_idx, unique_id  # Returns image, class index, and unique_id
 
     def __len__(self):
         return len(self.imgs)
@@ -179,49 +180,51 @@ def get_target_dataset(name: str, train=False, transform=None, target_transform=
         transform=transform)
         
     elif name == "shapenet":
-      
-      class_to_idx = {'airplane': 0, 'car': 1, 'chair': 2} 
-      dataset = ShapeNetDataset(root_dir="/content/drive/MyDrive/shapenet_dataset", 
-                          class_to_idx=class_to_idx, 
-                          transform=transform)
-      
-      # This will ensure that only valid data entries are considered for the mapping
-      dataset.file_to_class = {
-          str(idx): dataset[idx][1]
-          for idx in range(len(dataset))
-          if not dataset.imgs[idx][0].startswith('.')
-      }    
+        
+        class_to_idx = {'airplane': 0, 'car': 1, 'chair': 2} 
+        # TODO: The root dir is currently hard-coded for running on AWS.
+        dataset = ShapeNetDataset(root_dir="/home/ubuntu/shapenet/", 
+                            class_to_idx=class_to_idx, 
+                            transform=transform)
+        
+        # This will ensure that only valid data entries are considered for the mapping
+        dataset.file_to_class = {
+            str(idx): dataset.imgs[idx][2]
+            for idx in range(len(dataset))
+            if not dataset.imgs[idx][0].startswith('.')
+        }    
+        print(dataset.file_to_class)
 
-      # transform = get_transform(interpolation=InterpolationMode.BICUBIC, size=512)
-      # dataset = datasets.ImageFolder(root="/content/drive/MyDrive/shapenet_dataset", transform=transform)
+        # transform = get_transform(interpolation=InterpolationMode.BICUBIC, size=512)
+        # dataset = datasets.ImageFolder(root="/content/drive/MyDrive/shapenet_dataset", transform=transform)
 
-      # # Helper function to extract unique ID from file path
-      # def get_unique_id_from_path(file_path):
-      #     # Extract the parts of the file path
-      #     path_parts = file_path.split(os.sep)
-      #     # Print the parts of the path for debugging
-      #     print(f"Path parts: {path_parts[-3:-1]}")
-      #     # The unique ID is a combination of class name and model folder name
-      #     unique_id = "_".join(path_parts[-3:-1])  # Example: 'airplane_model1'
-      #     # Print the unique ID for debugging
-      #     print(f"Generated unique ID: {unique_id} for file path: {file_path}")
-      #     return unique_id
-      
+        # # Helper function to extract unique ID from file path
+        # def get_unique_id_from_path(file_path):
+        #     # Extract the parts of the file path
+        #     path_parts = file_path.split(os.sep)
+        #     # Print the parts of the path for debugging
+        #     print(f"Path parts: {path_parts[-3:-1]}")
+        #     # The unique ID is a combination of class name and model folder name
+        #     unique_id = "_".join(path_parts[-3:-1])  # Example: 'airplane_model1'
+        #     # Print the unique ID for debugging
+        #     print(f"Generated unique ID: {unique_id} for file path: {file_path}")
+        #     return unique_id
+        
 
-      # # Mapping each image to its corresponding unique ID
-      # dataset.file_to_class = {}
-      # for idx, (path, _) in enumerate(dataset.imgs):
-      #     # Extract unique ID from the file path
-      #     unique_id = get_unique_id_from_path(path)
-      #     dataset.file_to_class[str(idx)] = unique_id
-      #     # Print the index and unique ID for debugging
-      #     print(f"Index: {idx}, Unique ID: {unique_id}, File path: {path}")
+        # # Mapping each image to its corresponding unique ID
+        # dataset.file_to_class = {}
+        # for idx, (path, _) in enumerate(dataset.imgs):
+        #     # Extract unique ID from the file path
+        #     unique_id = get_unique_id_from_path(path)
+        #     dataset.file_to_class[str(idx)] = unique_id
+        #     # Print the index and unique ID for debugging
+        #     print(f"Index: {idx}, Unique ID: {unique_id}, File path: {path}")
 
-  
+
     else:
         raise ValueError(f"Dataset {name} not supported.")
 
-    if name in {'mnist', 'cifar10', 'stl10', 'aircraft', 'buildingnet', 'shapenet'}:
+    if name in {'mnist', 'cifar10', 'stl10', 'aircraft', 'buildingnet'}:
         dataset.file_to_class = {
             str(idx): dataset[idx][1]
             for idx in tqdm(range(len(dataset)))
@@ -230,4 +233,3 @@ def get_target_dataset(name: str, train=False, transform=None, target_transform=
     assert hasattr(dataset, "class_to_idx"), f"Dataset {name} does not have a class_to_idx attribute."
     assert hasattr(dataset, "file_to_class"), f"Dataset {name} does not have a file_to_class attribute."
     return dataset
-

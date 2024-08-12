@@ -133,7 +133,7 @@ def main():
 
     # run args
     parser.add_argument('--version', type=str, default='2-0', help='Stable Diffusion model version')
-    parser.add_argument('--img_size', type=int, default=512, choices=(256, 512), help='Number of trials per timestep')
+    parser.add_argument('--img_size', type=int, default=64, choices=(64, 128, 256, 512), help='Number of trials per timestep')
     parser.add_argument('--batch_size', '-b', type=int, default=32)
     parser.add_argument('--n_trials', type=int, default=1, help='Number of trials per timestep')
     parser.add_argument('--prompt_path', type=str, required=True, help='Path to csv file with prompts to use')
@@ -201,7 +201,7 @@ def main():
                            max_length=tokenizer.model_max_length, truncation=True, return_tensors="pt")
     embeddings = []
     with torch.inference_mode():
-        for i in range(0, len(text_input.input_ids), 100):
+        for i in tqdm.tqdm(range(0, len(text_input.input_ids), 100)):
             text_embeddings = text_encoder(
                 text_input.input_ids[i: i + 100].to(device),
             )[0]
