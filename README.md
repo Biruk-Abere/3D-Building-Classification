@@ -30,7 +30,7 @@ Team: Biruk Abere, Berfin Inal, Gabriele Dominici, Meher Nigam, Alex Li,  Nursen
 
 This repository contains the implementation of our approach that integrates the methodologies of the LION paper and the Diffusion Classifier for advanced 3D building classification. 
 
-![3D Building Classification](https://github.com/SGI-2023/3D-Building-Classification/blob/main/3D%20Buildings.png)
+![3D Building Classification]()
 
 # Table of Contents 📚
 
