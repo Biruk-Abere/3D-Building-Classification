@@ -1,4 +1,4 @@
-# Multi-Modal Diffusion Models For 3D Objects Classification 🏢🌐
+# Multi-Modal Diffusion Models For 3D Objects Classification 
 
 Team: Biruk Abere, Berfin Inal, Gabriele Dominici, Meher Nigam, Alex Li,  Nursena Koprucu, Sharvaree Vadgama, Le Xue, Shicheng Xu, Alberto Tono 
 
