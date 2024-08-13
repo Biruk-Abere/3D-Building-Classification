@@ -5,6 +5,8 @@ Team: Biruk Abere, Berfin Inal, Gabriele Dominici, Meher Nigam, Alex Li,  Nursen
 ![Diagram (1)](https://github.com/user-attachments/assets/55b38187-cf11-436a-8fc5-4fa1e31e7908)
 
 
+Inspired by Geoffrey Hinton’s emphasis on generative modeling (“To recognize shapes, first learn to generate them"), we explore the use of 3D diffusion models for object classification. Leveraging the density estimates from these models, our approach, “Diffusion Classifier for 3D Objects”, dubbed DC3DO, enables zero-shot classification of 3D shapes without additional training. Our method achieves an average of 12.5\% improvement compared with its multi-view counterparts, demonstrating superior multimodal reasoning compared to discriminative approaches. DC3DO uses a class-conditional diffusion model trained on ShapeNet. We run inferences on chairs and cars pointclouds. This work underscores the potential of generative models in 3D object classification.
+
 This repository contains the implementation of our approach that integrates the methodologies of the LION paper and the Diffusion Classifier for advanced 3D building classification. 
 
 # DATASET
