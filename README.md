@@ -53,6 +53,7 @@ This part uses a Conda environment with CUDA 11.6 support. Below are the specifi
 
 After setting up the environment, install the additional dependency for CLIP:
 * ```pip install git+https://github.com/openai/CLIP.git``` 
+
 To build the package, run:
 * ```python build_pkg.py```
 
