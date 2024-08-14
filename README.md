@@ -52,12 +52,9 @@ This part uses a Conda environment with CUDA 11.6 support. Below are the specifi
 ### Additional Installation
 
 After setting up the environment, install the additional dependency for CLIP:
-
-```bash
-pip install git+https://github.com/openai/CLIP.git 
+* pip install git+https://github.com/openai/CLIP.git 
 To build the package, run:
-
-python build_pkg.py
+*python build_pkg.py
 
 ## Released checkpoint and samples 
 * Checkpoint can be downloaded from [here](https://huggingface.co/xiaohui2022/lion_ckpt)
@@ -65,8 +62,7 @@ python build_pkg.py
 * Put the downloaded file under ./lion_ckpt/
 
 To run inference using the trained model, run:
-```bash
-python demo_classifier.py
+* python demo_classifier.py
 
 This will use the trained model to classify input data as per the configured settings.
 
